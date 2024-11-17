@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Customer, Order
+from models import db, Customer, Order
 from datetime import datetime
 
 api = Blueprint('api', __name__)
