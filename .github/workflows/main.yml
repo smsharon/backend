@@ -15,7 +15,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
+
+      - name: Set environment variables
+        run: |
+          echo "AFRICASTALKING_API_KEY=${{ secrets.AFRICASTALKING_API_KEY }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
