@@ -2,6 +2,13 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required , create_access_token, get_jwt_identity
 from models import db, Customer, Order
 from datetime import datetime
+import africastalking
+
+# Initialize Africa's Talking
+username = "sandbox"  
+api_key = "atsk_0a9c45f231345f2dd0b72c5261d0670e224d903d41a1e7d2732dd843e13aa09594464bbe"   
+africastalking.initialize(username, api_key)
+sms = africastalking.SMS
 
 api = Blueprint('api', __name__)
 
@@ -34,7 +41,7 @@ def login():
 @jwt_required()
 def add_order():
     """
-    Allow a logged-in customer to create an order.
+    Allow a logged-in customer to create an order and send an SMS notification.
     """
     # Get the logged-in customer's identity
     current_user = get_jwt_identity()
@@ -46,9 +53,11 @@ def add_order():
     data = request.json
     item = data.get('item')
     amount = data.get('amount')
+    phone_number = data.get('phone_number')  # Customer's phone number for SMS
 
-    if not item or not amount:
-        return jsonify({"msg": "Item and amount are required"}), 400
+
+    if not item or not amount or not phone_number:
+        return jsonify({"msg": "Item, amount and phone number are required"}), 400
 
     # Create the order
     order = Order(
@@ -60,7 +69,17 @@ def add_order():
     db.session.add(order)
     db.session.commit()
 
-    return jsonify({"msg": "Order created successfully"}), 201
+    # Send SMS notification
+    try:
+        message = f"Hi {customer.name}, your order for {item} worth ${amount} has been received!"
+        response = sms.send(message, [phone_number])
+        print(response)  
+    except Exception as e:
+        print(f"Error sending SMS: {e}")
+        return jsonify({"msg": "Order created, but SMS could not be sent."}), 201
+
+
+    return jsonify({"msg": "Order created successfully and SMS sent!"}), 201
 
 #endpoint for customers to view their orders
 @api.route('/orders', methods=['GET'])
