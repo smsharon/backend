@@ -24,10 +24,6 @@ jobs:
 
       - name: List Installed Dependencies
         run: pip freeze
-       
-      - name: Run Database Migrations
-        run: |
-          python -m flask db upgrade
           
       - name: Run tests
         env:
