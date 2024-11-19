@@ -1,6 +1,7 @@
 import pytest
 from app.app import app
 from app.models import db
+from unittest.mock import patch
 
 # Test client fixture
 @pytest.fixture
@@ -23,7 +24,10 @@ def test_login(client):
     assert "access_token" in response.json
 
 # Test creating an order
-def test_add_order(client):
+@patch("africastalking.SMS.send")
+def test_add_order(mock_send, client):
+    # Mock SMS API response
+    mock_send.return_value = {"status": "success", "message": "SMS sent successfully"}
     # Login to get a token
     login_response = client.post('/login', json={"username": "joe goldberg", "code": "004"})
     token = login_response.json["access_token"]
@@ -33,6 +37,7 @@ def test_add_order(client):
     '/orders',
     json={"item": "watch", "amount": 1500, "phone_number": "+254758793099"},
     headers={"Authorization": f"Bearer {token}"}
+    
 
 )
 
