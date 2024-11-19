@@ -40,9 +40,9 @@ def test_add_order(mock_send, client):
     # Add an order
     response = client.post(
     '/orders',
-    json={"item": "watch", "amount": 1500.00, "phone_number": "+254758793099"},
+    json={"item": "watch", "amount": 1500.00, "phone_number": "+254758793099", "subject": "Order for watch"},
     headers={"Authorization": f"Bearer {token}"}
-    
+)
 
 )
     print("Response JSON:", response.json)
