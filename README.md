@@ -17,7 +17,7 @@ This is a Flask-based backend application for managing customers and orders. The
 ## Setup Instructions
 1. Clone the repository:
    - git clone git@github.com:smsharon/backend.git
-   - cd backend-challenge
+   - cd backend
 2. Install dependancies:
    - pip install -r requirements.txt
 3. Set up the database:
