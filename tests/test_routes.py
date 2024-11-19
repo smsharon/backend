@@ -30,9 +30,11 @@ def test_add_order(client):
 
     # Add an order
     response = client.post(
-        '/orders',
-        json={"item": "watch", "amount": 1500, "phone_number": "+254758793099"},
-        headers={"Authorization": f"Bearer {token}"}
-    )
+    '/orders',
+    json={"item": "watch", "amount": 1500, "phone_number": "+254758793099"},
+    headers={"Authorization": f"Bearer {token}"}
+
+)
+
     assert response.status_code == 201
     assert response.json["msg"] == "Order created successfully and SMS sent!"
