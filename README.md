@@ -16,18 +16,18 @@ This is a Flask-based backend application for managing customers and orders. The
 
 ## Setup Instructions
 1. Clone the repository:
-   git clone git@github.com:smsharon/backend.git
-   cd backend-challenge
+   - git clone git@github.com:smsharon/backend.git
+   - cd backend-challenge
 2. Install dependancies:
-   pip install -r requirements.txt
+   - pip install -r requirements.txt
 3. Set up the database:
-   python -m flask db init
-   python -m flask db migrate
-   python -m flask db upgrade
+   - python -m flask db init
+   - python -m flask db migrate
+   - python -m flask db upgrade
 4. Run the application:
-   python app/app.py
+   - python app/app.py
 5. Run the tests:
-   pytest --cov=app tests/
+   - pytest --cov=app tests/
 ## API Endpoints
 - Authentication
    POST /login: Logs in a customer and returns a JWT token.
