@@ -13,6 +13,7 @@ def client():
     #db.init_app(app)
     with app.app_context():
         db.create_all()
+        print("Tables in database:", db.engine.table_names())
         yield app.test_client()
     #with app.app_context():
         db.drop_all()
