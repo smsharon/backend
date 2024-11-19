@@ -2,6 +2,7 @@ import pytest
 from app.app import app
 from app.models import db
 from unittest.mock import patch
+from sqlalchemy import inspect
 
 # Test client fixture
 @pytest.fixture
@@ -13,7 +14,7 @@ def client():
     #db.init_app(app)
     with app.app_context():
         db.create_all()
-        print("Tables in database:", db.engine.table_names())
+        print("Tables in database:", inspect(db.engine).get_table_names())
         yield app.test_client()
     #with app.app_context():
         db.drop_all()
