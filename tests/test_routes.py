@@ -33,6 +33,7 @@ def test_add_order(mock_send, client):
     # Login to get a token
     login_response = client.post('/login', json={"username": "joe goldberg", "code": "004"})
     token = login_response.json["access_token"]
+    print("Generated token:", token)
 
     # Add an order
     response = client.post(
@@ -42,6 +43,6 @@ def test_add_order(mock_send, client):
     
 
 )
-
+    print("Response JSON:", response.json)
     assert response.status_code == 201
     assert response.json["msg"] == "Order created successfully and SMS sent!"
