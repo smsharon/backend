@@ -18,7 +18,9 @@ def client():
         db.drop_all()
 
 # Test login functionality
-def test_login(client):
+@patch("africastalking.SMS.send")
+def test_login(mock_send, client):
+    mock_send.return_value = {"status": "success", "message": "SMS sent successfully"}
     response = client.post('/login', json={"username": "joe goldberg", "code": "004"})
     assert response.status_code == 200
     assert "access_token" in response.json

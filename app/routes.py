@@ -51,12 +51,14 @@ def add_order():
 
     # Get order details from request
     data = request.json
+    print("Order request payload:", data)
     item = data.get('item')
     amount = data.get('amount')
     phone_number = data.get('phone_number')  # Customer's phone number for SMS
 
 
     if not item or not amount or not phone_number:
+        print("Missing fields in order payload.")
         return jsonify({"msg": "Item, amount and phone number are required"}), 400
 
     # Create the order
