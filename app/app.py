@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
-from models import db
-from routes import api
+from app.models import db
+from app.routes import api
 app = Flask(__name__)
 
 # Configure the database
