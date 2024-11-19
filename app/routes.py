@@ -43,46 +43,55 @@ def add_order():
     """
     Allow a logged-in customer to create an order and send an SMS notification.
     """
-    # Get the logged-in customer's identity
-    current_user = get_jwt_identity()
-    customer = Customer.query.filter_by(code=current_user['code']).first()
-    if not customer:
-        return jsonify({"msg": "Customer not found"}), 404
-
-    # Get order details from request
-    data = request.json
-    print("Order request payload:", data)
-    item = data.get('item')
-    amount = data.get('amount')
-    phone_number = data.get('phone_number')  # Customer's phone number for SMS
-
-
-    if not item or not amount or not phone_number:
-        print("Missing fields in order payload.")
-        return jsonify({"msg": "Item, amount and phone number are required"}), 400
-
-    # Create the order
-    order = Order(
-        item=item,
-        amount=amount,
-        time=datetime.utcnow(),
-        customer_id=customer.id
-    )
-    db.session.add(order)
-    db.session.commit()
-
-    # Send SMS notification
     try:
-        message = f"Hi {customer.name}, your order for {item} worth ${amount} has been received!"
-        response = sms.send(message, [phone_number])
-        print(response)  
+        # Get the logged-in customer's identity
+        current_user = get_jwt_identity()
+        print("Authenticated user:", current_user)  # Debug log
+
+        # Fetch customer from the database
+        customer = Customer.query.filter_by(code=current_user['code']).first()
+        if not customer:
+            print("Customer not found:", current_user['code'])  # Debug log
+            return jsonify({"msg": "Customer not found"}), 404
+
+        # Parse and validate the order payload
+        data = request.json
+        print("Order request payload:", data)  # Debug log
+
+        item = data.get('item')
+        amount = data.get('amount')
+        phone_number = data.get('phone_number')
+
+        if not item or not amount or not phone_number:
+            print("Validation failed. Missing fields in payload.")  # Debug log
+            return jsonify({"msg": "Item, amount, and phone number are required"}), 400
+
+        # Create and save the order
+        order = Order(
+            item=item,
+            amount=amount,
+            time=datetime.utcnow(),
+            customer_id=customer.id
+        )
+        db.session.add(order)
+        db.session.commit()
+        print("Order created successfully.")  # Debug log
+
+        # Send SMS notification
+        try:
+            message = f"Hi {customer.name}, your order for {item} worth ${amount} has been received!"
+            print("Sending SMS with message:", message)  # Debug log
+            sms_response = sms.send(message, [phone_number])
+            print("SMS API response:", sms_response)  # Debug log
+        except Exception as e:
+            print(f"Error sending SMS: {e}")  # Debug log
+            return jsonify({"msg": "Order created, but SMS could not be sent."}), 201
+
+        return jsonify({"msg": "Order created successfully and SMS sent!"}), 201
+
     except Exception as e:
-        print(f"Error sending SMS: {e}")
-        return jsonify({"msg": "Order created, but SMS could not be sent."}), 201
-
-
-    return jsonify({"msg": "Order created successfully and SMS sent!"}), 201
-
+        print("Error processing order:", e)  # Debug log
+        return jsonify({"msg": "Internal Server Error"}), 500
 #endpoint for customers to view their orders
 @api.route('/orders', methods=['GET'])
 @jwt_required()

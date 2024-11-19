@@ -31,7 +31,7 @@ def test_login(mock_send, client):
 @patch("africastalking.SMS.send")
 def test_add_order(mock_send, client):
     # Mock SMS API response
-    mock_send.return_value = {"status": "success", "message": "SMS sent successfully"}
+    mock_send.return_value = [{"status": "success", "message": "SMS sent successfully"}]
     # Login to get a token
     login_response = client.post('/login', json={"username": "joe goldberg", "code": "004"})
     token = login_response.json["access_token"]
