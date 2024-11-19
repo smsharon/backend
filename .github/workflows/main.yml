@@ -22,6 +22,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Set up SQLite database
+        run: |
+          touch data.db
+          chmod 777 data.db   
+
       - name: List Installed Dependencies
         run: pip freeze
           
