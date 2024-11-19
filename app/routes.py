@@ -61,3 +61,15 @@ def add_order():
     db.session.commit()
 
     return jsonify({"msg": "Order created successfully"}), 201
+
+#endpoint for customers to view their orders
+@api.route('/orders', methods=['GET'])
+@jwt_required()
+def get_orders():
+    current_user = get_jwt_identity()
+    customer = Customer.query.filter_by(code=current_user['code']).first()
+    if not customer:
+        return jsonify({"msg": "Customer not found"}), 404
+
+    orders = Order.query.filter_by(customer_id=customer.id).all()
+    return jsonify([{"item": o.item, "amount": o.amount, "time": o.time} for o in orders]), 200
