@@ -80,10 +80,12 @@ jobs:
               # Seed necessary data for the tests
               inventory = Inventory(name='Item 1', on_hand=10, warn_limit=5)
               db.session.add(inventory)
+              db.session.commit()  # Commit to ensure id is generated
               customer = Customer(name='Jane Doe', code='C002', phone_number='+254758793098')
               db.session.add(customer)
+              db.session.commit()  # Commit to ensure customer.id is generated
               # Creating an order for the customer
-              order = Order(customer_id=2)
+              order = Order(customer_id=customer.id)
               db.session.add(order)
               db.session.commit()
           "
