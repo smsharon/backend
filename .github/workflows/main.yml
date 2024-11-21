@@ -83,7 +83,7 @@ jobs:
               customer = Customer(name='Jane Doe', code='C002', phone_number='+254758793098')
               db.session.add(customer)
               # Creating an order for the customer
-              order = Order(customer_id=customer.id)
+              order = Order(customer_id=2)
               db.session.add(order)
               db.session.commit()
           "
