@@ -52,10 +52,13 @@ jobs:
         run: |
           flask db history   
 
-      # Debug: List tables in the database
+       # List tables in the database
       - name: List tables in database
         run: |
-          flask shell -c "from app import db; print(db.engine.table_names())"    
+          flask shell <<EOF
+          from app import db
+          print(db.engine.table_names())
+          EOF  
 
       # Seed data for tests (inventory, customers, etc.)
       - name: Seed data for tests
