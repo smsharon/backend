@@ -167,10 +167,14 @@ def test_create_order(client, mock_transaction_log, mock_send_sms):
         "code": "C001",
         "phone_number": "+254758793099"
     })
-    token = client.post("/api/login", json={
+    # Log in and get the token
+    login_response = client.post("/api/login", json={
         "code": "C001",
         "phone_number": "+254758793099"
-    }).json["access_token"]
+    })
+    assert login_response.status_code == 200  # Assert login success
+    token = login_response.json["access_token"]
+    print(f"Generated Token: {token}")
 
     # Create an order
     response = client.post("/api/orders", json={}, headers={"Authorization": f"Bearer {token}"})
