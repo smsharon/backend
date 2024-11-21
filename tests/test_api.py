@@ -173,7 +173,7 @@ def test_create_order(client, mock_transaction_log, mock_send_sms):
     }).json["access_token"]
 
     # Create an order
-    response = client.post("/api/orders", json={}, headers={"Authorization": f"Bearer {token}"})
+    response = client.post("/api/orders", json={"items": [{"inventory_id": 1, "quantity": 1}]}, headers={"Authorization": f"Bearer {token}"})
 
     # Assert success
     assert response.status_code == 201
