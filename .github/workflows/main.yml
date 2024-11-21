@@ -38,7 +38,12 @@ jobs:
       # Set up database and run migrations
       - name: Set up database
         run: |
-          python -m flask db init
+          if [ ! -d "migrations" ]; then
+            echo "Initializing migrations folder..."
+            python -m flask db init
+          else
+            echo "Migrations folder already exists. Skipping 'flask db init'."
+          fi
           python -m flask db migrate
           python -m flask db upgrade
 
@@ -53,5 +58,3 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           files: "coverage.xml"
-
-      
