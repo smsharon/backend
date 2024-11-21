@@ -39,7 +39,7 @@ jobs:
           echo "AFRICASTALKING_USERNAME=${{ secrets.AFRICASTALKING_USERNAME }}" >> $GITHUB_ENV
           echo "AFRICASTALKING_API_KEY=${{ secrets.AFRICASTALKING_API_KEY }}" >> $GITHUB_ENV
           echo "FLASK_SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }}" >> $GITHUB_ENV
-          
+
       # Set up database and run migrations
       - name: Set up database
         run: |
@@ -80,7 +80,7 @@ jobs:
               # Seed necessary data for the tests
               inventory = Inventory(name='Item 1', on_hand=10, warn_limit=5)
               db.session.add(inventory)
-              customer = Customer(name='John Doe', code='C001', phone_number='+254758793099')
+              customer = Customer(name='Jane Doe', code='C002', phone_number='+254758793098')
               db.session.add(customer)
               db.session.commit()
           "
