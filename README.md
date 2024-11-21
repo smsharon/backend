@@ -43,9 +43,9 @@ This is a Flask-based backend application for managing customers and orders. The
 - Customers
    POST /customers: Adds a new customer (protected).
 - Orders
-   POST /orders: Adds a new order and sends an SMS notification (protected).
-   PUT /orders/{order_id}/approve: Approves an order (protected endpoint).
-   GET /orders: Retrieves all orders for the authenticated customer.
+   - POST /orders: Adds a new order and sends an SMS notification (protected).
+   - PUT /orders/{order_id}/approve: Approves an order (protected endpoint).
+   - GET /orders: Retrieves all orders for the authenticated customer.
 
 ## Licence
 - MIT
