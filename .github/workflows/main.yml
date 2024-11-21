@@ -74,7 +74,7 @@ jobs:
           python3 -c "
           from app import create_app
           from app.extensions import db
-          from app.models import Inventory, Customer
+          from app.models import Inventory, Customer, Order
           app = create_app()
           with app.app_context():
               # Seed necessary data for the tests
