@@ -19,7 +19,7 @@ def create_app(config_class=DevelopmentConfig):
 
     # Initialize extensions
     db.init_app(app)
-    #migrate.init_app(app, db)
+    migrate.init_app(app, db)
     JWTManager(app)
     init_oauth(app)
 
