@@ -1,4 +1,5 @@
 from flask import Flask
+from app.extensions import db, migrate
 from app.extensions import db
 from app.config import DevelopmentConfig
 from app.routes.api import api
@@ -14,6 +15,7 @@ def create_app(config_class=DevelopmentConfig):
 
     # Initialize extensions
     db.init_app(app)
+    migrate.init_app(app, db)
     JWTManager(app)
     init_oauth(app)
 
