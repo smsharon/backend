@@ -52,31 +52,32 @@ jobs:
         run: |
           flask db history   
 
-       # List tables in the database
+       # Debug: List tables in the database using Python script
       - name: List tables in database
         run: |
-          flask shell <<EOF
-          from app import db
-          print(db.engine.table_names())
-          EOF  
+          python3 -c "
+          from app import create_app
+          from app.extensions import db
+          app = create_app()
+          with app.app_context():
+              print(db.metadata.tables.keys())
 
       # Seed data for tests (inventory, customers, etc.)
       - name: Seed data for tests
         run: |
-          flask shell <<EOF
+          python3 -c "
           from app import create_app
           from app.extensions import db
           from app.models import Inventory, Customer
           app = create_app()
           with app.app_context():
               # Seed necessary data for the tests
-              inventory = Inventory(name="Item 1", on_hand=10, warn_limit=5)
+              inventory = Inventory(name='Item 1', on_hand=10, warn_limit=5)
               db.session.add(inventory)
-              customer = Customer(name="John Doe", code="C001", phone_number="+254758793099")
+              customer = Customer(name='John Doe', code='C001', phone_number='+254758793099')
               db.session.add(customer)
               db.session.commit()
-          EOF    
-
+          "
       # Run tests with pytest and coverage
       - name: Run tests
         run: |
