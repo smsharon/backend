@@ -173,24 +173,23 @@ def test_create_order(client, mock_transaction_log, mock_send_sms):
     }).json["access_token"]
 
     # Create an order
-    response = client.post("/api/orders", json={"items": [{"inventory_id": 1, "quantity": 1}]}, headers={"Authorization": f"Bearer {token}"})
-
+    response = client.post("/api/orders", json={}, headers={"Authorization": f"Bearer {token}"})
+    
     # Assert success
     assert response.status_code == 201
     assert "order_id" in response.json
-
+    assert response.json["msg"] == "Order created successfully"
+    
     # Verify log and SMS
     mock_transaction_log.assert_any_call(
         1, "Order created", "Order created by customer John Doe."
     )
-
-    # Debugging: Check if send_sms was called
-    print(f"send_sms was called with args: {mock_send_sms.call_args}")
     
-    # Verify if SMS was sent
     mock_send_sms.assert_called_once_with(
-        "Hi John Doe, your order has been created successfully!", "+254758793099"
+        "Hi John Doe, your order has been created successfully!",
+        "+254758793099"
     )
+
 
 def test_get_orders(client, mock_transaction_log):
     """
