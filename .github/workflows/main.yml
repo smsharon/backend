@@ -61,6 +61,7 @@ jobs:
           app = create_app()
           with app.app_context():
               print(db.metadata.tables.keys())
+          "
 
       # Seed data for tests (inventory, customers, etc.)
       - name: Seed data for tests
