@@ -8,7 +8,7 @@ from app.config import DevelopmentConfig
 from app.helpers.auth import init_oauth
 from app.routes.api import api
 from flask_jwt_extended import JWTManager
-from app.models import Customer, Inventory, Order, OrderItem, TransactionLog  # Import all models
+from app.models import Customer, Inventory, Order, OrderItem, TransactionLog  
 
 def create_app(config_class=DevelopmentConfig):
     """
