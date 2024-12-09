@@ -34,6 +34,5 @@ def create_app(config_class=DevelopmentConfig):
 if __name__ == "__main__":
     app = create_app()
     with app.app_context():
-        # Create all tables
         db.create_all()
     app.run(debug=True)
