@@ -14,14 +14,15 @@ def app():
     """
     app = create_app("app.config.DevelopmentConfig")
     with app.app_context():
-        db.create_all()
-        yield app
-        db.drop_all()
+        db.create_all() # Initialize a clean database
+        yield app # Provide the app to the test
+        db.drop_all() # Clean up the database after the test
 
 @pytest.fixture
 def client(app):
     """
     Provides a test client for the app.
+    For simulating HTTP requests to the application.
     """
     return app.test_client()
 

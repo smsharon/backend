@@ -18,10 +18,11 @@ def create_app(config_class=DevelopmentConfig):
     app.config.from_object(config_class)
 
     # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
-    JWTManager(app)
-    init_oauth(app)
+    db.init_app(app) #Sets up SQLAlchemy with the Flask app.
+    migrate.init_app(app, db) #Enables migration support for the database.
+    JWTManager(app) #Configures JWT-based authentication for secure communication.
+    init_oauth(app) #Initializes OIDC for handling external authentication providers
+
 
 
     # Register blueprints
@@ -32,7 +33,7 @@ def create_app(config_class=DevelopmentConfig):
 
 
 if __name__ == "__main__":
-    app = create_app()
+    app = create_app() # initializes and configures the Flask application.
     with app.app_context():
         db.create_all()
     app.run(debug=True)
