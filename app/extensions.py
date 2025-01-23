@@ -1,5 +1,5 @@
 """
-Extensions for the Flask application.
+For initializing the sqlAlchemy and migrate extensiuons the Flask application.
 """
 
 from flask_sqlalchemy import SQLAlchemy

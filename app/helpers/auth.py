@@ -1,5 +1,6 @@
 """
-Authentication helper functions for OpenID Connect and JWT.
+Authentication helper functions handling authentication using
+OpenID Connect and JWT through the authlib library.
 """
 
 from authlib.integrations.flask_client import OAuth
